@@ -25,6 +25,26 @@ public class EncodingMain2 {
         test("가", MS_949, MS_949); // O
         test("가", StandardCharsets.UTF_8, StandardCharsets.UTF_8); // O
         test("가", StandardCharsets.UTF_16BE, StandardCharsets.UTF_16BE); // O
+
+        System.out.println("== 한글 인코딩 - 복잡한 문자 ==");
+        test("뷁", EUC_KR, EUC_KR); // X
+        test("뷁", MS_949, MS_949); // O
+        test("뷁", StandardCharsets.UTF_8, StandardCharsets.UTF_8); // O
+        test("뷁", StandardCharsets.UTF_16BE, StandardCharsets.UTF_16BE); // O
+
+        System.out.println("== 한글 인코딩 - 디코딩이 다른 경우 ==");
+        test("가", EUC_KR, MS_949);
+        test("뷁", MS_949, EUC_KR); // 인코딩 가능, 디코딩 X
+        test("가", EUC_KR, StandardCharsets.UTF_8); // X
+        test("가", MS_949, StandardCharsets.UTF_8); // X
+        test("가", StandardCharsets.UTF_8, MS_949); // X
+
+        System.out.println("== 영문 인코딩 - 디코딩이 다른 경우 ==");
+        test("A", EUC_KR, StandardCharsets.UTF_8);
+        test("A", MS_949, StandardCharsets.UTF_8);
+        test("A", StandardCharsets.UTF_8, MS_949);
+        test("A", StandardCharsets.UTF_8, StandardCharsets.UTF_16BE); // X
+        
     }
 
     private static void test(String text, Charset encodingCharset, Charset decodingCharset) {
