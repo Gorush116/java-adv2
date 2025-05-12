@@ -1,6 +1,7 @@
 package chat.server;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CommandManagerV2 implements CommandManager {
 
@@ -24,12 +25,25 @@ public class CommandManagerV2 implements CommandManager {
             String[] split = totalMessage.split(DELIMITER);
             String message = split[1];
             sessionManager.sendAll("[" + session.getUsername() + "] " + message);
-        }
-
-
-
-        if (totalMessage.startsWith("/exit")) {
+        } else if (totalMessage.startsWith("/change")) {
+            // /change|han2
+            String[] split = totalMessage.split(DELIMITER);
+            String changeName = split[1];
+            sessionManager.sendAll(session.getUsername() + " 님이 " + changeName + "로 이름을 변경하셨습니다.");
+            session.setUsername(changeName);
+        } else if (totalMessage.startsWith("/users")) {
+            // /users
+            List<String> usernames = sessionManager.getAllUsername();
+            StringBuilder sb = new StringBuilder();
+            sb.append("전체 접속자 : ").append(usernames.size()).append("\n");
+            for (String username : usernames) {
+                sb.append(" - ").append(username).append("\n");
+            }
+            session.send(sb.toString());
+        } else if (totalMessage.startsWith("/exit")) {
             throw new IOException("exit");
+        } else {
+            session.send("처리할 수 없는 명령어입니다.");
         }
 
     }
