@@ -2,7 +2,10 @@ package annotation.validator;
 
 public class User {
 
+    @NotEmpty
     private String name;
+
+    @Range(min = 1, max = 100, message = "나이는 1과 100 사이어야 합니다.")
     private int age;
 
     public User(String name, int age) {
