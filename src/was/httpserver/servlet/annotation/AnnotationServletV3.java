@@ -23,7 +23,7 @@ public class AnnotationServletV3 implements HttpServlet {
 
     private void initializePathMap(List<Object> controllers) {
         for (Object controller : controllers) {
-            Method[] methods = controllers.getClass().getDeclaredMethods();
+            Method[] methods = controller.getClass().getDeclaredMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(Mapping.class)) {
                     String path = method.getAnnotation(Mapping.class).value();
@@ -52,8 +52,6 @@ public class AnnotationServletV3 implements HttpServlet {
         }
 
         controllerMethod.invoke(request, response);
-
-        throw new PageNotFoundException("request = " + path);
     }
 
 
