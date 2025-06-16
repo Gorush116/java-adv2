@@ -72,5 +72,11 @@ public class MemberController {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
         int age = Integer.parseInt(request.getParameter("age"));
+
+        Member member = new Member(id, name, age);
+        memberRepository.add(member);
+
+        response.writeBody("<h1>save complete!</h1>");
+        response.writeBody("<a href='/'>Back to Home</a>");
     }
 }
